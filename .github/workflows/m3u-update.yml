@@ -3,7 +3,7 @@ name: Auto Update M3U
 on:
   schedule:
     - cron: '0 */12 * * *'  # Every 12 hours
-  workflow_dispatch:        # Manual trigger
+  workflow_dispatch:        # Allows manual trigger
 
 jobs:
   update:
@@ -27,6 +27,12 @@ jobs:
         run: |
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
-          git add updated.m3u
-          git commit -m "Auto-update: $(date)"
-          git push
+          
+          # Check if file has changed
+          if [[ `git status --porcelain` ]]; then
+            git add updated.m3u
+            git commit -m "Auto-update: $(date -u)"
+            git push
+          else
+            echo "No changes to commit"
+          fi
