@@ -38,19 +38,18 @@ jobs:
           else
             echo "No changes to commit"
           fi
-      - name: Commit and Push
+            - name: Commit and Push
         env:
           TOKEN: ${{ secrets.PAT }}
         run: |
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
           git remote set-url origin https://x-access-token:${TOKEN}@github.com/${{ github.repository }}
-          
+
           if [[ `git status --porcelain` ]]; then
             git add updated.m3u
             git commit -m "Auto-update: $(date -u)"
-            git push
+            git push origin main
           else
             echo "No changes to commit"
           fi
-
