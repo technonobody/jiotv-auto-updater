@@ -1,0 +1,32 @@
+name: Auto Update M3U
+
+on:
+  schedule:
+    - cron: '0 */12 * * *'  # Every 12 hours
+  workflow_dispatch:        # Manual trigger
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run fetch script
+        run: node fetch.js
+
+      - name: Commit and Push
+        run: |
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'action@github.com'
+          git add updated.m3u
+          git commit -m "Auto-update: $(date)"
+          git push
