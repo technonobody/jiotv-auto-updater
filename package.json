@@ -1,0 +1,10 @@
+{
+  "name": "jiotv-updater",
+  "version": "1.0.0",
+  "description": "Auto update JioTV m3u file every 12 hours",
+  "main": "fetch.js",
+  "scripts": {
+    "start": "node fetch.js"
+  },
+  "dependencies": {}
+}
